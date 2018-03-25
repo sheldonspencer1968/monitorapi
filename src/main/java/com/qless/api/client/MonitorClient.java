@@ -12,40 +12,103 @@ import com.qless.api.db.QLessDb;
 import com.qless.api.util.Monitor;
 
 public class MonitorClient {
-	public void test(){
 	
+	public void createMonitor(){
+	
+		QLessDb db = new QLessDb();
+	    Monitor mon = new Monitor();
+	    mon.setUserid("xox0000");
+	    
+		try {
 
+			Client client = ClientBuilder.newClient(new ClientConfig());
+			
+			JSONObject obj = new JSONObject(mon);
+			
+			Response result = client
+	                .target("http://localhost:8080/monitor-api/rest")
+	                .path("/create")
+	                .request()
+	                .post(Entity.json(obj.toString()));
+			
+	        System.out.println(String.format("===> Response = %s", result.toString()));
+	        
+	        Object o = result.readEntity(String.class);
+	        
+	        System.out.println(o);
+	        
+	       
+		}catch (Exception e) {
+
+			e.printStackTrace();
+
+		  }
+
+	}
+	public void readMonitor(int v){
+		
+		
+	    
+		try {
+
+			Client client = ClientBuilder.newClient(new ClientConfig());
+			
+			Response result = client
+	                .target("http://localhost:8080/monitor-api/rest")
+	                .path("/accounts/"+ v)
+	                .request()
+	                .get();
+			
+	        System.out.println(String.format("===> Response = %s", result.toString()));
+	        
+	        Object o = result.readEntity(String.class);
+	        
+	        System.out.println(o);
+	        
+	       
+		}catch (Exception e) {
+
+			e.printStackTrace();
+
+		  }
+		
+	}
+	public void deleteMonitor(){
+	
+		QLessDb db = new QLessDb();
+	    Monitor mon = new Monitor();
+	    mon.setUserid("xox0000");
+	    
+		try {
+
+			Client client = ClientBuilder.newClient(new ClientConfig());
+			
+			JSONObject obj = new JSONObject(mon);
+			
+			Response result = client
+	                .target("http://localhost:8080/monitor-api/rest")
+	                .path("/delete")
+	                .request()
+	                .delete();
+			
+	        System.out.println(String.format("===> Response = %s", result.toString()));
+	        
+	        Object o = result.readEntity(String.class);
+	        
+	        System.out.println(o);
+	        
+	       
+		}catch (Exception e) {
+
+			e.printStackTrace();
+
+		  }
 	}
 	 public static void main(String[] args) {
 
-		    QLessDb db = new QLessDb();
-		    Monitor mon = new Monitor();
-		    mon.setUserid("xox0000");
-		    
-			try {
-
-				Client client = ClientBuilder.newClient(new ClientConfig());
-				
-				JSONObject obj = new JSONObject(mon);
-				
-				Response result = client
-		                .target("http://localhost:8080/monitor-api/rest")
-		                .path("/create")
-		                .request()
-		                .post(Entity.json(obj.toString()));
-				
-		        System.out.println(String.format("===> Response = %s", result.toString()));
-		        
-		        Object o = result.readEntity(String.class);
-		        
-		        System.out.println(o);
-		        
-		       
-			}catch (Exception e) {
-
-				e.printStackTrace();
-
-			  }
+		    MonitorClient client = new MonitorClient();
+		    client.readMonitor(1);
 	 }
-
+    
+	 
 }
